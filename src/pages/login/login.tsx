@@ -91,7 +91,7 @@ export default function Login() {
                           placeholder="admin@example.com" 
                           {...field} 
                           disabled={isLoading}
-                          className="bg-yellow-50" 
+                          className="bg-yellow-50 text-zinc-900" 
                         />
                       </FormControl>
                       <FormMessage />
@@ -112,7 +112,7 @@ export default function Login() {
                             placeholder="******"
                             {...field}
                             disabled={isLoading}
-                            className="bg-yellow-50 pr-10"
+                            className="bg-yellow-50 text-zinc-900 pr-10"
                           />
                         </FormControl>
                         <button
