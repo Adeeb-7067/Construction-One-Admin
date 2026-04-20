@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+@layer base {
+  :root {
+    --background: 30 10% 98%;
+    --foreground: 20 10% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 12%;
+
+    --primary: 24 85% 52%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 16 80% 48%;
+
+    --secondary: 30 15% 95%;
+    --secondary-foreground: 20 10% 12%;
+
+    --muted: 30 12% 95%;
+    --muted-foreground: 20 6% 50%;
+
+    --accent: 30 15% 94%;
+    --accent-foreground: 20 10% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 10% 90%;
+    --input: 30 10% 90%;
+    --ring: 24 85% 52%;
+
+    --radius: 0.625rem;
+
+
+    --success: 152 60% 42%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 210 80% 55%;
+    --info-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 20 10% 25%;
+    --sidebar-primary: 24 85% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 15% 95%;
+    --sidebar-accent-foreground: 24 85% 52%;
+    --sidebar-border: 30 10% 90%;
+    --sidebar-ring: 24 85% 52%;
+
+    --chart-1: 24 85% 52%;
+    --chart-2: 16 80% 48%;
+    --chart-3: 152 60% 42%;
+    --chart-4: 210 80% 55%;
+    --chart-5: 38 92% 50%;
+  }
+
+  .dark {
+    --background: 20 18% 4%;
+    --foreground: 30 10% 98%;
+
+    --card: 20 18% 6%;
+    --card-foreground: 30 10% 98%;
+
+    --popover: 20 18% 6%;
+    --popover-foreground: 30 10% 98%;
+
+    --primary: 24 85% 52%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 16 80% 48%;
+
+    --secondary: 20 14% 12%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 20 14% 12%;
+    --muted-foreground: 20 6% 65%;
+
+    --accent: 20 14% 12%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 20 12% 16%;
+    --input: 20 12% 16%;
+    --ring: 24 85% 52%;
+
+    --sidebar-background: 20 18% 10%;
+    --sidebar-foreground: 30 10% 72%;
+    --sidebar-primary: 24 85% 52%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 20 14% 14%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 20 12% 16%;
+    --sidebar-ring: 24 85% 52%;
+
+    --chart-1: 24 85% 52%;
+    --chart-2: 16 80% 48%;
+    --chart-3: 152 60% 42%;
+    --chart-4: 210 80% 55%;
+    --chart-5: 38 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .stat-card {
+    @apply rounded-xl border bg-card p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+  }
+  .page-header {
+    @apply mb-6;
+  }
+  .page-title {
+    @apply text-2xl font-bold tracking-tight text-foreground;
+  }
+  .page-description {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+  .module-card {
+    @apply rounded-xl border bg-card p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer;
+  }
+  .glass-card {
+    @apply rounded-xl border bg-card/80 backdrop-blur-sm p-5 shadow-sm;
+  }
+}
