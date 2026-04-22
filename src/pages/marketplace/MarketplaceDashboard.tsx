@@ -29,6 +29,7 @@ import {
   Target,
   Activity,
   CreditCard,
+  Globe,
 } from "lucide-react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import {
@@ -255,7 +256,7 @@ export default function MarketplaceDashboard() {
     return { filter: range };
   }, [range, date]);
 
-  const {
+  const {  
     data: response,
     isLoading,
     isFetching,
@@ -277,11 +278,20 @@ export default function MarketplaceDashboard() {
 
   const orderStatusPie = useMemo(() => {
     if (!d?.summary) return [];
-    return [
-      { name: "Delivered", value: d.summary.ordersDelivered, color: C.emerald },
-      { name: "Pending", value: d.summary.pendingOrders, color: C.amber },
-      { name: "Placed", value: d.summary.placedOrders, color: C.primary },
+    const s = d.summary;
+    const named = (s.ordersDelivered || 0) + (s.pendingOrders || 0) + (s.placedOrders || 0);
+    const other = Math.max(0, (s.totalOrders || 0) - named);
+
+    const base = [
+      { name: "Delivered", value: s.ordersDelivered, color: C.emerald },
+      { name: "Pending", value: s.pendingOrders, color: C.amber },
+      { name: "Placed", value: s.placedOrders, color: C.primary },
     ];
+
+    if (other > 0) {
+      base.push({ name: "Other", value: other, color: C.slate });
+    }
+    return base;
   }, [d]);
 
   if (isLoading) return <DashboardSkeleton />;
@@ -297,8 +307,8 @@ export default function MarketplaceDashboard() {
         />
 
         <div className="flex items-center gap-1.5 bg-muted/30 p-1.5 rounded-xl border border-border overflow-x-auto no-scrollbar">
-          {["lifetime", "today", "yesterday", "last7days", "last30days"].map(
-            (f) => (
+          {["lifetime", "today", "yesterday", "last 7days", "last 30days"].map(
+            (f) => ( 
               <Button
                 key={f}
                 variant={range === f ? "secondary" : "ghost"}
@@ -396,7 +406,7 @@ export default function MarketplaceDashboard() {
               delay={0.2}
             />
             <StatCard
-              label="Partners"
+              label="Vendors"
               value={(s?.totalVendors || 0).toLocaleString()}
               sub={`${s?.activeVendor || 0} currently active`}
               color={C.amber}
@@ -418,7 +428,7 @@ export default function MarketplaceDashboard() {
                 {[
                   { label: "Orders", color: C.primary },
                   { label: "Accounts", color: C.violet },
-                  { label: "Partners", color: C.sky },
+                  { label: "Vendors", color: C.sky },
                 ].map((leg) => (
                   <div
                     key={leg.label}
@@ -487,7 +497,7 @@ export default function MarketplaceDashboard() {
                   <Area
                     type="monotone"
                     dataKey="vendors"
-                    name="Partners"
+                    name="Vendors"
                     stroke={C.sky}
                     strokeWidth={2.5}
                     fill="url(#clrS)"
@@ -521,7 +531,7 @@ export default function MarketplaceDashboard() {
                         data={orderStatusPie}
                         innerRadius={60}
                         outerRadius={80}
-                        paddingAngle={8}
+                        paddingAngle={0}
                         dataKey="value"
                         stroke="none"
                       >
@@ -575,7 +585,7 @@ export default function MarketplaceDashboard() {
           {/* ── Operational Health & Scale ── */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Section
-              title="Partner Health"
+              title="Vendor Health"
               sub="Verification Pipeline"
               icon={Store}
               delay={0.4}
@@ -587,7 +597,7 @@ export default function MarketplaceDashboard() {
                       {s?.totalVendors || 0}
                     </span>
                     <span className="text-[9px] font-bold opacity-40 uppercase">
-                      Partners
+                      Vendors
                     </span>
                   </div>
                   <PieChart width={176} height={176}>
@@ -606,7 +616,7 @@ export default function MarketplaceDashboard() {
                       ]}
                       innerRadius={55}
                       outerRadius={75}
-                      paddingAngle={10}
+                      paddingAngle={0}
                       dataKey="value"
                       stroke="none"
                     >
@@ -651,7 +661,7 @@ export default function MarketplaceDashboard() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
-                    label: "Groups",
+                    label: "P-Categories",
                     value: s?.totalPCategories,
                     color: C.primary,
                     icon: Tag,
@@ -663,16 +673,28 @@ export default function MarketplaceDashboard() {
                     icon: BarChart3,
                   },
                   {
-                    label: "Depth",
+                    label: "Sub-Categories",
                     value: s?.totalSubCategories,
                     color: C.violet,
                     icon: TrendingUp,
                   },
                   {
-                    label: "Locations",
-                    value: (s?.totalCities || 0) + (s?.totalStates || 0),
+                    label: "Brands",
+                    value: s?.totalBrands,
+                    color: C.amber,
+                    icon: Zap,
+                  },
+                  {
+                    label: "Cities",
+                    value: s?.totalCities,
                     color: C.emerald,
                     icon: MapPin,
+                  },
+                  {
+                    label: "States",
+                    value: s?.totalStates,
+                    color: C.sky,
+                    icon: Globe, // I'll use Globe if available or just stick to MapPin
                   },
                 ].map((p) => (
                   <div
@@ -701,16 +723,29 @@ export default function MarketplaceDashboard() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 flex items-center justify-between p-3.5 rounded-[1.5rem] bg-primary/5 border border-primary/10">
-                <div className="flex items-center gap-3">
-                  <Users className="h-4 w-4 text-primary opacity-50" />
-                  <span className="text-[10px] font-black uppercase text-primary/70">
-                    Sub-Admins (Fleet Scale)
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                <div className="flex items-center justify-between p-3.5 rounded-[1.5rem] bg-primary/5 border border-primary/10">
+                  <div className="flex items-center gap-3">
+                    <Activity className="h-4 w-4 text-primary opacity-50" />
+                    <span className="text-[10px] font-black uppercase text-primary/70">
+                      Transactions
+                    </span>
+                  </div>
+                  <span className="font-black text-primary text-sm">
+                    {s?.totalTransactions || 0}
                   </span>
                 </div>
-                <span className="font-black text-primary text-sm">
-                  {s?.totalSubAdmin || 0}
-                </span>
+                <div className="flex items-center justify-between p-3.5 rounded-[1.5rem] bg-violet/5 border border-violet/10">
+                  <div className="flex items-center gap-3">
+                    <Users className="h-4 w-4 text-violet opacity-50" />
+                    <span className="text-[10px] font-black uppercase text-violet/70">
+                      Sub-Admins
+                    </span>
+                  </div>
+                  <span className="font-black text-violet text-sm">
+                    {s?.totalSubAdmin || 0}
+                  </span>
+                </div>
               </div>
             </Section>
           </div>
@@ -770,7 +805,7 @@ export default function MarketplaceDashboard() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground opacity-50">
-                        Partner ID: {v._id.slice(-8).toUpperCase()}
+                        Vendor ID: {v._id.slice(-8).toUpperCase()}
                       </p>
                       <div className="flex gap-4 mt-0.5">
                         <span className="text-[10px] font-bold text-muted-foreground">
