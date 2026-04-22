@@ -307,7 +307,7 @@ export default function MarketplaceDashboard() {
         />
 
         <div className="flex items-center gap-1.5 bg-muted/30 p-1.5 rounded-xl border border-border overflow-x-auto no-scrollbar">
-          {["lifetime", "today", "yesterday", "last 7days", "last 30days"].map(
+          {["lifetime", "today", "yesterday", "last7days", "last30days"].map(
             (f) => ( 
               <Button
                 key={f}
