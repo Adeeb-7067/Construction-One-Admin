@@ -168,7 +168,7 @@ export default function AdminUsers() {
         columns={columns} 
         data={users} 
         onView={handleViewClick}
-        onDelete={handleDeleteClick}
+        // onDelete={handleDeleteClick}
         isLoading={isLoading}
       />
 
