@@ -20,6 +20,7 @@ import FlashSale from "./pages/marketplace/FlashSale";
 import RFQ from "./pages/marketplace/RFQ";
 import Transactions from "./pages/marketplace/Transactions";
 import MarketplaceFAQ from "./pages/marketplace/MarketplaceFAQ";
+import BusinessRequests from "./pages/marketplace/BusinessRequests";
 
 // Services
 import ServicesDashboard from "./pages/services/ServicesDashboard";
@@ -88,6 +89,7 @@ const App = () => (
               <Route path="/marketplace/rfq" element={<RFQ />} />
               <Route path="/marketplace/transactions" element={<Transactions />} />
               <Route path="/marketplace/vendor-requests" element={<VendorRequests />} />
+              <Route path="/marketplace/business-requests" element={<BusinessRequests />} />
               <Route path="/marketplace/faq" element={<MarketplaceFAQ />} />
 
               {/* Services */}

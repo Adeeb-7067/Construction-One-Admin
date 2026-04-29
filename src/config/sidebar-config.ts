@@ -79,6 +79,7 @@ export const sidebarConfig: SidebarEntry[] = [
       { title: "RFQ", url: "/marketplace/rfq", icon: MessageSquare, permission: "MARKETPLACE_RFQ" },
       { title: "Transactions", url: "/marketplace/transactions", icon: CreditCard, permission: "MARKETPLACE_TRANSACTIONS" },
       { title: "Vendor Requests", url: "/marketplace/vendor-requests", icon: UserCheck, permission: "MARKETPLACE_VENDOR_REQUESTS" },
+      { title: "Business Requests", url: "/marketplace/business-requests", icon: Building2, permission: "MARKETPLACE_BUSINESS_REQUESTS" },
     ],
   },
   {

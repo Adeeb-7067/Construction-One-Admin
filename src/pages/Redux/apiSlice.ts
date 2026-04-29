@@ -12,7 +12,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Auth", "Modules", "ParentCategories", "CategoryTree", "Brands", "Countries", "States", "Cities", "Pincodes", "Users", "Vendors", "Products", "FAQs", "RFQs", "FlashSales", "Banners", "Transactions", "Withdrawals", "HomeSections", "SubAdmins", "Dashboard"],
+  tagTypes: ["Auth", "Modules", "ParentCategories", "CategoryTree", "Brands", "Countries", "States", "Cities", "Pincodes", "Users", "Vendors", "Products", "FAQs", "RFQs", "FlashSales", "Banners", "Transactions", "Withdrawals", "HomeSections", "SubAdmins", "Dashboard", "BusinessRequests"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -673,6 +673,13 @@ export const apiSlice = createApi({
       }),
       providesTags: ["Dashboard"],
     }),
+    getBusinessRequests: builder.query({
+      query: (params) => ({
+        url: "/business-request",
+        params
+      }),
+      providesTags: ["BusinessRequests"],
+    }),
   }),
 });
 
@@ -775,5 +782,6 @@ export const {
   useToggleSubAdminStatusMutation,
   useGetAdminMeQuery,
   useUpdateAdminProfileMutation,
-  useGetAdminDashboardQuery
+  useGetAdminDashboardQuery,
+  useGetBusinessRequestsQuery
 } = apiSlice;
